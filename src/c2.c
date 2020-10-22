@@ -1406,8 +1406,9 @@ static inline void c2_match_once_leaf(session_t *ps, const struct managed_win *w
 				tgt_free = strdup(strlst[idx]);
 				tgt = tgt_free;
 			}
-			if (strlst)
-				XFreeStringList(strlst);
+			if (strlst) {
+				free(strlst);
+			}
 		}
 
 		if (tgt) {
@@ -1464,10 +1465,7 @@ static inline void c2_match_once_leaf(session_t *ps, const struct managed_win *w
 
 		// Free the string after usage, if necessary
 		if (tgt_free) {
-			if (C2_L_TATOM == pleaf->type)
-				XFree(tgt_free);
-			else
-				free(tgt_free);
+			free(tgt_free);
 		}
 	} break;
 	default: assert(0); break;
